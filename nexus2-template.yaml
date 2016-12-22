@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Template
 labels:
-  template: nexus-persistent-template
+  template: nexus2-template
 metadata:
-  name: nexus-persistent
+  name: nexus2
   annotations:
-    description: Sonatype Nexus persistent template
+    description: Sonatype Nexus 2 template
     tags: ci,nexus
 objects:
 - apiVersion: v1
@@ -92,8 +92,7 @@ objects:
         terminationGracePeriodSeconds: 30
         volumes:
         - name: ${SERVICE_NAME}-data
-          persistentVolumeClaim:
-            claimName: ${SERVICE_NAME}-pv
+          emptyDir: {}
     test: false
     triggers:
     - type: ConfigChange
@@ -134,18 +133,6 @@ objects:
       kind: Service
       name: ${SERVICE_NAME}
       weight: 100
-- apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    labels:
-      app: ${SERVICE_NAME}
-    name: ${SERVICE_NAME}-pv
-  spec:
-    accessModes:
-    - ReadWriteOnce
-    resources:
-      requests:
-        storage: ${VOLUME_CAPACITY}
 parameters:
 - description: Sonatype Nexus service name
   displayName: Sonatype Nexus service name
@@ -157,7 +144,3 @@ parameters:
   name: NEXUS_VERSION
   required: true
   value: 2.14.2
-- description: Volume space available for Sonatype Nexus e.g. 512Mi, 2Gi
-  name: VOLUME_CAPACITY
-  required: true
-  value: 2Gi
