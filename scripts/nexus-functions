@@ -1,6 +1,11 @@
-########################################################
-# Functions for Managing Sonatype Nexus                #
-########################################################
+#############################################################
+# Functions for Managing Sonatype Nexus                     #
+#                                                           #
+# Authors:                                                  #
+# - Jorge Morales        https://github.com/jorgemoralespou #
+# - Siamak Sadeghianfar  https://github.com/siamaksade      #
+#                                                           #
+#############################################################
 
 #
 # add_nexus2_repo [repo-id] [repo-url] [nexus-username] [nexus-password] [nexus-url]
