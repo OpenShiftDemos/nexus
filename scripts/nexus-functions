@@ -11,7 +11,7 @@
 # add_nexus2_repo [repo-id] [repo-url] [nexus-username] [nexus-password] [nexus-url]
 #
 
-function nexus2_add_repo() {
+function add_nexus2_repo() {
   local _REPO_ID=$1
   local _REPO_URL=$2
   local _NEXUS_USER=$3
@@ -48,7 +48,7 @@ function nexus2_add_repo() {
 }
 EOM
 
-  curl -s -v -f -X POST -H "Accept: application/json" -H "Content-Type: application/json" -d "$REPO_JSON" -u "$_NEXUS_USER:$_NEXUS_PWD" "$_NEXUS_URL/service/local/repositories"
+  curl -s -f -X POST -H "Accept: application/json" -H "Content-Type: application/json" -d "$REPO_JSON" -u "$_NEXUS_USER:$_NEXUS_PWD" "$_NEXUS_URL/service/local/repositories"
 
 }
 
@@ -65,5 +65,50 @@ function nexus2_add_repo_to_group() {
   # Add to Public Repo Group
   GROUP_JSON=$(curl -s -H "Accept: application/json" -H "Content-Type: application/json" -f -X GET -u "$_NEXUS_USER:$_NEXUS_PWD" "$_NEXUS_URL/service/local/repo_groups/$_GROUP_ID")
   GROUP_JSON_WITH_REPO=$(echo $GROUP_JSON | sed "s/\"repositories\":\[/\"repositories\":[{\"id\": \"$_REPO_ID\"},/g")
-  curl -s -f -X PUT  -v -H "Accept: application/json" -H "Content-Type: application/json" -d "$GROUP_JSON_WITH_REPO" -u "$_NEXUS_USER:$_NEXUS_PWD" "$_NEXUS_URL/service/local/repo_groups/$_GROUP_ID"
+  curl -s -f -X PUT -H "Accept: application/json" -H "Content-Type: application/json" -d "$GROUP_JSON_WITH_REPO" -u "$_NEXUS_USER:$_NEXUS_PWD" "$_NEXUS_URL/service/local/repo_groups/$_GROUP_ID"
+}
+
+
+#
+# add_nexus2_redhat_repos [nexus-username] [nexus-password] [nexus-url]
+#
+function add_nexus2_jboss_repos() {
+  local _NEXUS_USER=$1
+  local _NEXUS_PWD=$2
+  local _NEXUS_URL=$3
+
+  add_nexus2_repo redhat-ga https://maven.repository.redhat.com/ga/ $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
+  add_nexus2_repo redhat-ea https://maven.repository.redhat.com/earlyaccess/all/ $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
+  add_nexus2_repo redhat-techpreview https://maven.repository.redhat.com/techpreview/all $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
+  add_nexus2_repo jboss-ce https://repository.jboss.org/nexus/content/groups/public/ $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
+
+  add_nexus2_group_repo redhat-ga public $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
+  add_nexus2_group_repo redhat-ea public $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
+  add_nexus2_group_repo redhat-techpreview public $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
+  add_nexus2_group_repo jboss-ce public $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
+}
+
+
+#
+# add_nexus3_repo [repo-id] [repo-url] [nexus-username] [nexus-password] [nexus-url]
+#
+
+function add_nexus3_repo() {
+  local _REPO_ID=$1
+  local _REPO_URL=$2
+  local _NEXUS_USER=$3
+  local _NEXUS_PWD=$4
+  local _NEXUS_URL=$5
+
+  # Add Repo
+  read -r -d '' REPO_JSON << EOM
+{
+  "name": "$_REPO_ID",
+  "type": "groovy",
+  "content": "repository.createMavenProxy('$_REPO_ID','$_REPO_URL')"
+}
+EOM
+
+  curl -s -H "Accept: application/json" -d "$REPO_JSON" -u "$_NEXUS_USER:$_NEXUS_PWD" "${NEXUS_BASE_URL}/service/siesta/rest/v1/script/"
+  curl -X POST -H "Content-Type: application/json" -u "$_NEXUS_USER:$_NEXUS_PWD" "${NEXUS_BASE_URL}/service/siesta/rest/v1/script/$_REPO_ID/run"
 }
