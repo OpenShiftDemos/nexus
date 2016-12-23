@@ -44,7 +44,7 @@ objects:
             command:
               - "/bin/bash"
               - "-c"
-              - "curl -o /tmp/nexus-functions -s https://raw.githubusercontent.com/siamaksade/nexus/master/scripts/nexus-functions; source /tmp/nexus-functions; add_nexus3_jboss_repos admin admin123 http://${SERVICE_NAME}:8081"
+              - "curl -o /tmp/nexus-functions -s https://raw.githubusercontent.com/siamaksade/nexus/master/scripts/nexus-functions; source /tmp/nexus-functions; add_nexus3_redhat_repos admin admin123 http://${SERVICE_NAME}:8081"
       type: Rolling
     template:
       metadata:
@@ -74,7 +74,7 @@ objects:
           readinessProbe:
             failureThreshold: 3
             httpGet:
-              path: /content/groups/public
+              path: /repository/maven-public/
               port: 8081
               scheme: HTTP
             initialDelaySeconds: 30
@@ -84,7 +84,7 @@ objects:
           resources: {}
           terminationMessagePath: /dev/termination-log
           volumeMounts:
-          - mountPath: /sonatype-work
+          - mountPath: /nexus-data
             name: ${SERVICE_NAME}-data
         dnsPolicy: ClusterFirst
         restartPolicy: Always
