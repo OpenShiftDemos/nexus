@@ -1,11 +1,11 @@
-#############################################################
-# Functions for Managing Sonatype Nexus                     #
-#                                                           #
-# Authors:                                                  #
-# - Jorge Morales        https://github.com/jorgemoralespou #
-# - Siamak Sadeghianfar  https://github.com/siamaksade      #
-#                                                           #
-#############################################################
+#################################################################
+# Functions for Managing Sonatype Nexus                         #
+#                                                               #
+# Authors:                                                      #
+# - Jorge Morales        https://github.com/jorgemoralespou     #
+# - Siamak Sadeghianfar  https://github.com/siamaksade          #
+#                                                               #
+#################################################################
 
 #
 # add_nexus2_repo [repo-id] [repo-url] [nexus-username] [nexus-password] [nexus-url]
@@ -72,7 +72,7 @@ function add_nexus2_group_repo() {
 #
 # add_nexus2_redhat_repos [nexus-username] [nexus-password] [nexus-url]
 #
-function add_nexus2_jboss_repos() {
+function add_nexus2_redhat_repos() {
   local _NEXUS_USER=$1
   local _NEXUS_PWD=$2
   local _NEXUS_URL=$3
@@ -115,7 +115,7 @@ EOM
 #
 # add_nexus3_redhat_repos [nexus-username] [nexus-password] [nexus-url]
 #
-function add_nexus3_jboss_repos() {
+function add_nexus3_redhat_repos() {
   local _NEXUS_USER=$1
   local _NEXUS_PWD=$2
   local _NEXUS_URL=$3
