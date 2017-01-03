@@ -1,7 +1,19 @@
 # Sonatype Nexus on OpenShift
 
 This repo contains OpenShift templates and scripts for deploying Sonatype Nexus 2 an 3
-and pre-configuring Red Hat and JBoss maven repositories on Nexus.
+and pre-configuring Red Hat and JBoss maven repositories on Nexus via post deploy hooks.
+You can modify the post hook in the templates and add other Nexus repositories by using these [helper
+functions](scripts/nexus-functions).
+
+```
+post:
+  execNewPod:
+    containerName: ${SERVICE_NAME}
+    command:
+      - "/bin/bash"
+      - "-c"
+      - "curl -o /tmp/nexus-functions -s https://raw.githubusercontent.com/OpenShiftDemos/nexus/master/scripts/nexus-functions; source /tmp/nexus-functions; add_nexus3_redhat_repos admin admin123 http://${SERVICE_NAME}:8081"
+```
 
 # Import Templates
 
