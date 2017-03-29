@@ -74,7 +74,7 @@ objects:
           readinessProbe:
             failureThreshold: 3
             httpGet:
-              path: /repository/maven-public/
+              path: /
               port: 8081
               scheme: HTTP
             initialDelaySeconds: 30
@@ -143,4 +143,4 @@ parameters:
   displayName: Sonatype Nexus version
   name: NEXUS_VERSION
   required: true
-  value: 3.2.0
+  value: 3.2.1
