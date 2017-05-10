@@ -34,7 +34,7 @@ objects:
       rollingParams:
         intervalSeconds: 1
         maxSurge: 25%
-        maxUnavailable: 25%
+        maxUnavailable: 0
         timeoutSeconds: 600
         updatePeriodSeconds: 1
         post:
@@ -156,7 +156,7 @@ parameters:
   displayName: Sonatype Nexus version
   name: NEXUS_VERSION
   required: true
-  value: 2.14.2
+  value: 2.14.4
 - description: Volume space available for Sonatype Nexus e.g. 512Mi, 2Gi
   name: VOLUME_CAPACITY
   required: true
