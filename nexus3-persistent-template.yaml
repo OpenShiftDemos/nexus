@@ -31,21 +31,7 @@ objects:
     selector:
       deploymentconfig: ${SERVICE_NAME}
     strategy:
-      rollingParams:
-        intervalSeconds: 1
-        maxSurge: 25%
-        maxUnavailable: 0
-        timeoutSeconds: 600
-        updatePeriodSeconds: 1
-        post:
-          failurePolicy: Abort
-          execNewPod:
-            containerName: ${SERVICE_NAME}
-            command:
-              - "/bin/bash"
-              - "-c"
-              - "curl -o /tmp/nexus-functions -s https://raw.githubusercontent.com/OpenShiftDemos/nexus/master/scripts/nexus-functions; source /tmp/nexus-functions; add_nexus3_redhat_repos admin admin123 http://${SERVICE_NAME}:8081"
-      type: Rolling
+      type: Recreate
     template:
       metadata:
         labels:
@@ -55,6 +41,8 @@ objects:
         - env:
           - name: CONTEXT_PATH
             value: /
+          - name: INSTALL4J_ADD_VM_PARAMS
+            value: -Xms1200m -Xmx1200m -Djava.util.prefs.userRoot=/nexus-data/
           image: ' '
           imagePullPolicy: IfNotPresent
           livenessProbe:
@@ -81,7 +69,9 @@ objects:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
-          resources: {}
+          resources:
+            limits:
+              memory: 2Gi
           terminationMessagePath: /dev/termination-log
           volumeMounts:
           - mountPath: /nexus-data
