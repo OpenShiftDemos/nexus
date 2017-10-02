@@ -81,7 +81,11 @@ objects:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
-          resources: {}
+          resources:
+            limits:
+              memory: ${MAX_MEMORY}
+            requests:
+              memory: 512Mi
           terminationMessagePath: /dev/termination-log
           volumeMounts:
           - mountPath: /sonatype-work
@@ -134,13 +138,16 @@ objects:
       name: ${SERVICE_NAME}
       weight: 100
 parameters:
-- description: Sonatype Nexus service name
-  displayName: Sonatype Nexus service name
+- displayName: Sonatype Nexus service name
   name: SERVICE_NAME
   required: true
   value: nexus
-- description: Sonatype Nexus version
-  displayName: Sonatype Nexus version
+- displayName: Sonatype Nexus version
   name: NEXUS_VERSION
   required: true
   value: 2.14.5
+- description: Max memory allocated to the Nexus pod
+  displayName: Max Memory
+  name: MAX_MEMORY
+  required: true
+  value: 1Gi
