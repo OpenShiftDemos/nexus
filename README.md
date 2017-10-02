@@ -55,6 +55,6 @@ oc new-app nexus3
 # Deploy Specific Version
 In order to specify the Nexus version to be deployed use ```NEXUS_VERSION``` parameter:
 ```
-oc new-app nexus2 -p NEXUS_VERSION=2.14.2
-oc new-app nexus3 -p NEXUS_VERSION=3.2.0
+oc new-app nexus2 -p NEXUS_VERSION=2.14.3
+oc new-app nexus3 -p NEXUS_VERSION=3.5.2
 ```
