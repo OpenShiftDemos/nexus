@@ -18,7 +18,7 @@ objects:
     tags:
     - from:
         kind: DockerImage
-        name: docker.io/sonatype/nexus3:${NEXUS_VERSION}
+        name: ${DOCKER_REPOSITORY}:${NEXUS_VERSION}
       name: ${NEXUS_VERSION}
 - apiVersion: v1
   kind: DeploymentConfig
@@ -151,3 +151,9 @@ parameters:
   name: MAX_MEMORY
   required: true
   value: 1Gi
+- description: Docker repository name
+  displayName: Docker repository
+  name: DOCKER_REPOSITORY
+  required: true
+  value: docker.io/sonatype/nexus3
+
