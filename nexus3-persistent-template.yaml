@@ -32,7 +32,7 @@ objects:
       deploymentconfig: ${SERVICE_NAME}
     strategy:
       recreateParams:
-        timeoutSeconds: 600
+        timeoutSeconds: 1200
         post:
           failurePolicy: Abort
           execNewPod:
