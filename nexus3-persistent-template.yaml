@@ -59,7 +59,7 @@ objects:
               - echo
               - ok
             failureThreshold: 3
-            initialDelaySeconds: 30
+            initialDelaySeconds: 60
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
@@ -73,7 +73,7 @@ objects:
               path: /
               port: 8081
               scheme: HTTP
-            initialDelaySeconds: 30
+            initialDelaySeconds: 60
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
@@ -164,4 +164,4 @@ parameters:
   displayName: Max Memory
   name: MAX_MEMORY
   required: true
-  value: 2Gi
+  value: 4Gi
