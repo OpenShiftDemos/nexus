@@ -122,7 +122,7 @@ objects:
       targetPort: 8081
     selector:
       deploymentconfig: ${SERVICE_NAME}
-    sessionAffinity: None
+    sessionAffinity: ClientIP
     type: ClusterIP
 - apiVersion: v1
   kind: Route
